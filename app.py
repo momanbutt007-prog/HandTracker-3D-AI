@@ -834,21 +834,24 @@ ctx = webrtc_streamer(
     },
     rtc_configuration={
         "iceServers": [
-            {"urls": ["stun:stun.l.google.com:19302"]},
-            {"urls": ["stun:stun1.l.google.com:19302"]},
+            {
+                "urls": [
+                    "stun:stun.l.google.com:19302",
+                    "stun:stun1.l.google.com:19302",
+                    "stun:stun2.l.google.com:19302",
+                    "stun:stun3.l.google.com:19302",
+                    "stun:stun4.l.google.com:19302",
+                ]
+            }
         ]
     },
     async_processing=True,
 )
 
-
-
-
-if ctx.video_processor:
-
+if ctx.video_processor is not None:
     ctx.video_processor.shape_name = selected_shape
 
-
+    
 # ============================================================
 # METRICS
 # ============================================================
