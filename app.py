@@ -828,12 +828,25 @@ ctx = webrtc_streamer(
     key="hand-tracker-3d",
     mode=WebRtcMode.SENDRECV,
     video_processor_factory=VideoProcessor,
+
     media_stream_constraints={
         "video": True,
         "audio": False,
     },
+
+    rtc_configuration={
+        "iceServers": [
+            {
+                "urls": [
+                    "stun:stun.l.google.com:19302"
+                ]
+            }
+        ]
+    },
+
     async_processing=True,
 )
+
 
 
 if ctx.video_processor:
