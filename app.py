@@ -35,6 +35,16 @@ SHAPES = [
     "Icosahedron",
 ]
 
+SHAPE_ICONS = {
+    "Cube": "🧊",
+    "Pyramid": "🔺",
+    "Sphere": "🔵",
+    "Cylinder": "🥫",
+    "Cone": "🍦",
+    "Torus": "🍩",
+    "Icosahedron": "💎",
+}
+
 WRIST = 0
 THUMB_TIP = 4
 INDEX_TIP = 8
@@ -42,27 +52,27 @@ MIDDLE_MCP = 9
 
 
 # ============================================================
-# SIMPLE CSS
+# THEME / CSS  (orange + cyan "vision engine" palette, polished)
 # ============================================================
 
 st.markdown("""
 <style>
 
-#MainMenu, footer {
-    visibility: hidden;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
 
+#MainMenu, footer { visibility: hidden; }
+
+html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+h1, h2, h3, h4 { font-family: 'Poppins', sans-serif !important; }
+
+/* ---------- App background ---------- */
 .stApp {
     background:
-        radial-gradient(circle at 10% 5%, #ff6b3515, transparent 30%),
-        radial-gradient(circle at 90% 10%, #00d4ff10, transparent 30%),
-        #070b10;
-    color: white;
-}
-
-[data-testid="stSidebar"] {
-    background: #090e14;
-    border-right: 1px solid #202b36;
+        radial-gradient(circle at 8% 0%, rgba(255, 107, 53, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 92% 8%, rgba(0, 212, 255, 0.10) 0%, transparent 48%),
+        radial-gradient(circle at 50% 105%, rgba(90, 210, 120, 0.05) 0%, transparent 55%),
+        linear-gradient(165deg, #05080d 0%, #0a0f16 45%, #060a10 100%);
+    color: #eef3f8;
 }
 
 .block-container {
@@ -70,54 +80,242 @@ st.markdown("""
     padding-top: 2rem;
 }
 
+/* ---------- Sidebar ---------- */
+[data-testid="stSidebar"] {
+    background:
+        radial-gradient(circle at 25% 0%, rgba(255,107,53,0.08), transparent 45%),
+        radial-gradient(circle at 90% 45%, rgba(0,212,255,0.08), transparent 50%),
+        linear-gradient(180deg, #0a0f16 0%, #050810 100%);
+    border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+[data-testid="stSidebar"] * { color: #eef3f8 !important; }
+
+.sb-logo-wrap { text-align: center; padding: 0.6rem 0 0.4rem 0; }
+
+.sb-logo-badge {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 0.5rem auto;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    background: linear-gradient(135deg, #ff6b35, #ff9142 55%, #00d4ff);
+    box-shadow: 0 10px 26px rgba(255,107,53,0.30);
+}
+
+.sb-title {
+    font-size: 1.18rem;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 0.1rem;
+}
+
+.sb-subtitle {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5) !important;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.sb-section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin: 0.5rem 0 0.6rem 0;
+    color: #ffffff !important;
+}
+
+.sb-section-label .icon-chip-sm {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    background: linear-gradient(135deg, rgba(255,107,53,0.28), rgba(0,212,255,0.28));
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.sb-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.7rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.sb-card p { margin: 0.25rem 0; font-size: 0.85rem; color: rgba(255,255,255,0.8) !important; }
+.sb-card b { color: #ffb088 !important; }
+
+.sb-shape-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 0.4rem 0.7rem;
+    margin-bottom: 0.35rem;
+    font-size: 0.85rem;
+}
+
+.sb-status-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: rgba(45,212,120,0.08);
+    border: 1px solid rgba(45,212,120,0.28);
+    border-radius: 12px;
+    padding: 0.55rem 0.8rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #86efac !important;
+}
+
+/* Selectbox in sidebar */
+[data-testid="stSidebar"] div[data-baseweb="select"] > div {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.14) !important;
+    border-radius: 10px !important;
+}
+
+/* ---------- Hero banner ---------- */
 .hero {
-    padding: 30px;
+    padding: 2.1rem 2.4rem;
     border-radius: 22px;
-    margin-bottom: 25px;
-    background: linear-gradient(135deg, #ff6b3520, #00d4ff08);
-    border: 1px solid #ffffff12;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(120deg, #7c2d12 0%, #b8451f 40%, #0e7490 100%);
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 20px 45px rgba(120, 60, 20, 0.30);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 220px;
+    height: 220px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
 }
 
 .hero h1 {
-    margin: 0;
-    font-size: 42px;
-    font-weight: 900;
+    margin: 0 0 0.5rem 0;
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
 }
 
 .hero p {
-    color: #9aa7b5;
+    color: rgba(255,255,255,0.82);
     max-width: 850px;
-    font-size: 15px;
+    font-size: 0.95rem;
+    margin-bottom: 0.9rem;
 }
 
 .badge {
     display: inline-block;
-    padding: 7px 13px;
-    border-radius: 20px;
-    background: #00d4ff12;
-    border: 1px solid #00d4ff30;
-    color: #62ddff;
-    font-size: 11px;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(0,212,255,0.14);
+    border: 1px solid rgba(0,212,255,0.35);
+    color: #7be0ff;
+    font-size: 0.72rem;
     font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
+/* ---------- Section header row ---------- */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #ffffff;
+    margin: 0.3rem 0 0.7rem 0;
+}
+
+.section-header .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: linear-gradient(120deg, #ff6b35, #00d4ff);
+    box-shadow: 0 0 10px rgba(255,107,53,0.7);
+}
+
+/* ---------- Metric cards ---------- */
 [data-testid="stMetric"] {
-    background: #101720;
-    border: 1px solid #202c38;
-    padding: 15px;
-    border-radius: 15px;
+    background: linear-gradient(165deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 16px;
+    padding: 1rem 1.1rem 0.7rem 1.1rem;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.30);
 }
 
+[data-testid="stMetricLabel"] { color: rgba(255,255,255,0.62) !important; }
+[data-testid="stMetricValue"] { color: #ffffff !important; font-family: 'Poppins', sans-serif; }
+
+/* ---------- Tech stack cards ---------- */
+.tech-card {
+    background: linear-gradient(165deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+    height: 100%;
+}
+
+.tech-card .tech-icon { font-size: 1.4rem; margin-bottom: 0.35rem; }
+.tech-card b { color: #ffffff; }
+.tech-card p { color: rgba(255,255,255,0.65); font-size: 0.85rem; margin: 0.2rem 0 0 0; }
+
+/* ---------- WebRTC video frame ---------- */
 [data-testid="stWebRtcStreamer"] {
     border-radius: 18px !important;
     overflow: hidden !important;
-    border: 1px solid #263441 !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
 }
 
+/* ---------- Buttons ---------- */
 .stButton button {
     border-radius: 10px;
-    background: #111922;
-    border: 1px solid #293643;
+    background: linear-gradient(120deg, #b8451f, #0e7490);
+    color: white;
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(184,69,31,0.30);
+}
+
+/* ---------- Expander / how it works ---------- */
+div[data-testid="stExpander"] {
+    background: linear-gradient(165deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 14px;
+}
+
+hr { border-color: rgba(255,255,255,0.08) !important; }
+
+.footer-caption {
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+    padding-top: 0.6rem;
 }
 
 </style>
@@ -764,60 +962,99 @@ class VideoProcessor(VideoProcessorBase):
 
 with st.sidebar:
 
-    st.title("🎛️ Control Center")
+    st.markdown(
+        """
+        <div class="sb-logo-wrap">
+            <div class="sb-logo-badge">🖐️</div>
+            <div class="sb-title">Control Center</div>
+            <div class="sb-subtitle">HandTracker 3D AI</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-    st.caption(
-        "Configure your 3D tracking experience."
+    st.divider()
+
+    st.markdown(
+        '<div class="sb-section-label"><span class="icon-chip-sm">🧊</span> 3D Object</div>',
+        unsafe_allow_html=True,
     )
 
     selected_shape = st.selectbox(
         "3D Object",
-        SHAPES
+        SHAPES,
+        format_func=lambda s: f"{SHAPE_ICONS.get(s, '🔷')}  {s}",
+        label_visibility="collapsed",
     )
 
     st.divider()
 
-    st.subheader("🖐️ Gesture Controls")
+    st.markdown(
+        '<div class="sb-section-label"><span class="icon-chip-sm">🖐️</span> Gesture Controls</div>',
+        unsafe_allow_html=True,
+    )
 
-    st.markdown("""
-    **Single Hand**
-    
-    • Move hand → Position  
-    • Thumb + Index → Scale  
-    • Hand angle → Rotate  
-
-    **Two Hands**
-
-    • Move apart → Increase  
-    • Move together → Decrease  
-    • Midpoint → Position  
-
-    **No Hands**
-
-    • Automatic rotation
-    """)
+    st.markdown(
+        """
+        <div class="sb-card">
+            <p><b>Single Hand</b></p>
+            <p>• Move hand → Position</p>
+            <p>• Thumb + Index → Scale</p>
+            <p>• Hand angle → Rotate</p>
+        </div>
+        <div class="sb-card">
+            <p><b>Two Hands</b></p>
+            <p>• Move apart → Increase</p>
+            <p>• Move together → Decrease</p>
+            <p>• Midpoint → Position</p>
+        </div>
+        <div class="sb-card">
+            <p><b>No Hands</b></p>
+            <p>• Automatic rotation</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     st.divider()
 
-    st.subheader("📦 Available Objects")
+    st.markdown(
+        '<div class="sb-section-label"><span class="icon-chip-sm">📦</span> Available Objects</div>',
+        unsafe_allow_html=True,
+    )
 
-    for shape in SHAPES:
-        st.write(f"• {shape}")
+    shapes_html = "".join(
+        f'<div class="sb-shape-pill">{SHAPE_ICONS.get(shape, "🔷")} {shape}</div>'
+        for shape in SHAPES
+    )
+    st.markdown(shapes_html, unsafe_allow_html=True)
 
     st.divider()
 
-    st.subheader("⚙️ System")
+    st.markdown(
+        '<div class="sb-section-label"><span class="icon-chip-sm">⚙️</span> System</div>',
+        unsafe_allow_html=True,
+    )
 
-    st.success("MediaPipe Hand Landmarker")
-    st.success("OpenCV + NumPy")
-    st.success("WebRTC Camera")
+    for label in [
+        "MediaPipe Hand Landmarker",
+        "OpenCV + NumPy",
+        "WebRTC Camera",
+    ]:
+        st.markdown(
+            f'<div class="sb-status-chip">● {label}</div>',
+            unsafe_allow_html=True,
+        )
 
 
 # ============================================================
 # LIVE TRACKING
 # ============================================================
 
-st.subheader("🎥 Live Tracking Studio")
+st.markdown(
+    '<div class="section-header"><span class="dot"></span> 🎥 Live Tracking Studio</div>',
+    unsafe_allow_html=True,
+)
 
 st.caption(
     "Allow camera access and move your hands in front "
@@ -851,12 +1088,17 @@ ctx = webrtc_streamer(
 if ctx.video_processor is not None:
     ctx.video_processor.shape_name = selected_shape
 
-    
+
 # ============================================================
 # METRICS
 # ============================================================
 
-st.subheader("📊 System Overview")
+st.divider()
+
+st.markdown(
+    '<div class="section-header"><span class="dot"></span> 📊 System Overview</div>',
+    unsafe_allow_html=True,
+)
 
 c1, c2, c3, c4, c5 = st.columns(5)
 
@@ -882,24 +1124,33 @@ with c5:
 
 st.divider()
 
-st.subheader("🛠️ Technology Stack")
+st.markdown(
+    '<div class="section-header"><span class="dot"></span> 🛠️ Technology Stack</div>',
+    unsafe_allow_html=True,
+)
 
 t1, t2, t3, t4, t5 = st.columns(5)
 
-with t1:
-    st.info("🧠 **MediaPipe**\n\nHand landmark detection.")
+tech_items = [
+    ("🧠", "MediaPipe", "Hand landmark detection."),
+    ("👁️", "OpenCV", "Video processing."),
+    ("🔢", "NumPy", "3D calculations."),
+    ("🌐", "Streamlit", "Application interface."),
+    ("📹", "WebRTC", "Live camera stream."),
+]
 
-with t2:
-    st.info("👁️ **OpenCV**\n\nVideo processing.")
-
-with t3:
-    st.info("🔢 **NumPy**\n\n3D calculations.")
-
-with t4:
-    st.info("🌐 **Streamlit**\n\nApplication interface.")
-
-with t5:
-    st.info("📹 **WebRTC**\n\nLive camera stream.")
+for col, (icon, name, desc) in zip([t1, t2, t3, t4, t5], tech_items):
+    with col:
+        st.markdown(
+            f"""
+            <div class="tech-card">
+                <div class="tech-icon">{icon}</div>
+                <b>{name}</b>
+                <p>{desc}</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 # ============================================================
@@ -929,7 +1180,8 @@ with st.expander("ℹ️ How does it work?"):
 
 st.divider()
 
-st.caption(
-    "🖐️ HandTracker 3D AI • "
-    "OpenCV + MediaPipe + NumPy + WebRTC"
+st.markdown(
+    '<div class="footer-caption">🖐️ HandTracker 3D AI &nbsp;•&nbsp; '
+    'OpenCV + MediaPipe + NumPy + WebRTC</div>',
+    unsafe_allow_html=True,
 )
